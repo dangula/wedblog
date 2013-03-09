@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Blog Entries</h1>
+{% if user.is_authenticated %}
+{% if entries|length > 0 %}
+<ul id="entries">
+  {% for entry in entries %}
+  <li>
+    <div class="entry">
+      <h2>{{ entry.title }}</h2>
+      <div class="entry-body">
+      {{ entry.text }}
+      </div>
+      <div class ="entry-author">
+      <p><strong>Author</strong>: {{entry.author}}</p>  
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No entries created yet.  Get to work!</p>
+{% endif %}
+
+
+<li><a href="{% url add_entry %}">Post New Entry</a></li>
+{% else %}
+<p>Oops you cant view this page- please login</p>
+{% endif %}
+{% endblock %}

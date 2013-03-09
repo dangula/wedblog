@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Stephanie and Divesh's  Wedding : {{wedDate}}</h1>
+<div id="content">
+<p>
+Hello Welcome to our Wedding site.</p>
+{% if not user.is_authenticated %}
+<p>Please login to access our website</p>
+
+<li><a href="{% url login %}">Log In</a></li>
+
+</div>
+
+{% endif %}
+
+<div id="footer">
+  <div id="footer-bar">
+   <p>Countdown {{daysLeft}} to go....</p> 
+  </div>
+</div>
+{% endblock %}

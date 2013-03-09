@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stephanie and Divesh Wedding Blog</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/wed_blog.css">
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <ul id="control-bar">
+          {% if user.is_authenticated %}
+          <li>Logged in as: {{user.username}} | </li>
+           {% if user.is_staff or request.user.is_superuser %}
+            <li><a href="{% url admin:index %}">Admin</a></li>
+            <li><a href="{% url admin_stats %}">stats</a></li>
+           {% endif %}
+           <li><a href="{% url map_view %}">Venue</a></li>
+           <li><a href="{% url entry_list %}">Blog</a></li>
+           <li><a href="{% url rsvp_event_view %}">Rsvp</a></li>
+            <li><a href="{% url logout %}">Log Out</a></li>
+          {% else %}
+            <li><a href="{% url login %}">Log In</a></li>
+            <li><a href="{% url registration_register %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div id="content">
+      {% if messages %}
+       {% for message in messages %}
+       <p class="notification{% if message.tags %} {{ message.tags }}{% endif %}">
+         {{ message }}</p>
+       {% endfor %}
+      {% endif %}
+      {% block content %}
+      {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

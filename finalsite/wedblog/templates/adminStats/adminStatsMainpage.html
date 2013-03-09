@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if user.is_staff or request.user.is_superuser %}
+<h1>Admin Status</h1>
+<div id="Rsvpcontent">
+<h3>RSVP stats</h3>
+<h4> Attending Count : {{yesCount}}</h4>
+<h6>Total Number of Guests {{yesGuests.number_of_guests__sum}}</h6>
+<h4> Not Attending Count : {{NoCount}} </h4>
+<h4> May Be Attending Count : {{MayBeCount}} </h4>
+</div>
+
+<h1>Attending Guests Details</h1>
+{% if yesRsvp|length > 0 %}
+<h3>List of Guests who are attending</h3>
+{% for rsvp in yesRsvp %}
+<div class="rsvpYes">
+  <ul><a href="{% url user_detail rsvp.pk %}">{{ rsvp.user }}</a></ul>
+</div>
+{% endfor %}
+{% else %}
+<h4> No Guests with attending status - Yes</h4>
+{%endif%}
+
+{% if NoRsvp|length > 0 %}
+<h3>List of Guests who are not attending</h3>
+{% for rsvp in NoRsvp %}
+<div class="rsvpNo">
+  <ul><a href="{% url user_detail rsvp.pk %}">{{ rsvp.user }}</a></ul>
+</div>
+{% endfor %}
+{% else %}
+<h4> No Guests with that are Not Attending</h4>
+{%endif%}
+
+{% if MayBeRsvp|length > 0 %}
+<h3>List of Guests who may be attending</h3>
+{% for rsvp in MayBeRsvp %}
+<div class="rsvpYes">
+  <ul><a href="{% url user_detail rsvp.pk %}">{{ rsvp.user }}</a></ul>
+</div>
+{% endfor %}
+{% else %}
+<h4> No Guests with attending status - May Be</h4>
+{%endif%}
+
+{%else%}
+<h5>Sorry {{ user }} his page is not for you</h5>
+
+{% endif %}
+
+{%else%}
+<h5>Sorry page is for admin use only</h5>
+
+{% endif %}
+{% endblock %}

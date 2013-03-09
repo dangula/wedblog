@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if user.is_staff or request.user.is_superuser %}
+<h1>Guest Stats for :  {{rsvp.user}}</h1>
+
+<div id="rsvpStatus">
+<h2> RSVP Status</h2>
+<h4> Attening Status - {{rsvp.attending_status}}</h4>
+{% if rsvp.attending_status == 'yes' %}
+<h4> No Of Guests Attending - {{rsvp.number_of_guests}}</h4>
+<h4>Rsvp Comment - {{rsvp.comment}}</h4>
+{%endif%}
+{% if rsvp.attending_status == 'no' %}
+<h4>Rsvp Comment - {{rsvp.comment}}</h4>
+{%endif%}
+</div>
+<h2>Blog information</h2>
+<div id="blogEntries">
+{% if entries|length > 0 %}
+<h4>{{entries|length}} entries posetd by this user</h4>
+{% for entry in entries %}
+  <li>
+    <div class="entry">
+      <h5>{{ entry.title }}</h5>
+      <div class="entry-body">
+      {{ entry.text }}
+      </div>
+      <br></br>
+      <h6>Posted on {{entry.pub_date}} </h6>
+  </li>
+  {% endfor %}
+  <div class="entry"></div>
+{%else%}
+<h6>No Blog Entries by this Guest</h6>
+{%endif%}
+</div>
+
+<div id="sideDisply">
+<h4>Additional information</h4>
+
+ <form method="post" action=".">{% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" value="save">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+ 
+{%else%}
+<h5>Sorry {{ user }} his page is not for you</h5>
+
+{% endif %}
+
+{%else%}
+<h5>Sorry page is for admin use only</h5>
+
+{% endif %}
+
+{% endblock %}
