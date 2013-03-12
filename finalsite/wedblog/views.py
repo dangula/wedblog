@@ -40,6 +40,9 @@ class AddEntryView(CreateView):
         return super(AddEntryView, self).form_valid(form)
 
 class HomePageView(TemplateView):
+    """
+    Generic TemplateView for HomePage.
+    """
 
     template_name = "blog/MainPage.html"
 
@@ -52,7 +55,9 @@ class HomePageView(TemplateView):
         return context
     
 class MapPageView(TemplateView):
-
+    """
+    Generic TemplateView for map page.
+    """
     template_name = "blog/MapPage.html"
 
     def get_context_data(self, **kwargs):
@@ -64,6 +69,10 @@ class MapPageView(TemplateView):
         return context
     
 class StatsPageView(TemplateView):
+    """
+    Generic TemplateView for Admin stats page. This Page is accessible to users with admin
+    privileges. Admin have to logged in to access this page.
+    """
 
     template_name = "adminStats/adminStatsMainpage.html"
 
@@ -88,6 +97,11 @@ class StatsPageView(TemplateView):
         return context  
 
 class UserDetailStatsView(TemplateView):
+    """
+    Generic TemplateView for Admin stats page per user. This Page is accessible to users with admin
+    privileges. Admin have to logged in to access this page.
+    """
+    
     template_name = "adminStats/userDetail.html"
 
     def get_context_data(self, **kwargs):
@@ -96,6 +110,11 @@ class UserDetailStatsView(TemplateView):
         return context  
 
 def RsvpCreateUpdateView(request):
+    """
+    One view for Creating/updating and viewing  RSVP status. This page is only accessible for active Users.
+    Uers have to logged in to view this page.
+    """
+    
     if request.method == 'GET':
         if not request.user.is_authenticated():
             msg = "Plese login"
@@ -138,6 +157,12 @@ def RsvpCreateUpdateView(request):
     }, context_instance=RequestContext(request))
 
 def UserDetailView(request,pk):
+    """
+    One view for viewing Rsvp and Blog enties for user, and Creating,
+    Updating and viewing user specific admin stats.
+    This page is only accessible for users with admin privileges.
+     
+    """
     
     if request.method == 'GET':
          rsvp = get_object_or_404(Rsvp, pk=pk)

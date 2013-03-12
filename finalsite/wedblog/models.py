@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
 
+"""
+ Static set of choices for RSVP.
+"""
 ATTENDING_CHOICES = (
     ('yes', 'Yes'),
     ('no', 'No'),
@@ -11,6 +14,10 @@ ATTENDING_CHOICES = (
 
 
 class Entry(models.Model):
+    """
+    Entry model represents a blog entry. User is the Foreign key 
+    so each blog is associated with a user. 
+    """
     title = models.CharField(max_length=128)
     text = models.TextField(max_length=4000)
     author = models.ForeignKey(User)
@@ -30,7 +37,10 @@ class Entry(models.Model):
         super(Entry, self).save()
 
 class Rsvp(models.Model):
-    
+    """
+     Rsvp Model captures the Rsvp respone for each user. User is the Foreign key.
+    """
+
     attending_status = models.CharField(max_length=32, choices=ATTENDING_CHOICES, default='no_rsvp')
     number_of_guests = models.SmallIntegerField(default=0)
     comment = models.TextField(max_length=255, blank=True, default='')
@@ -46,6 +56,9 @@ class Rsvp(models.Model):
         super(Rsvp, self).save(*args, **kwargs)
 
 class Stats(models.Model):
+    """
+    Stats is Model to store extra information per user.
+    """
     gifts_recieved= models.TextField(max_length=500, blank=True, default='')
     comment = models.TextField(max_length=255, blank=True, default='')
     user = models.ForeignKey(User)    
